@@ -1,0 +1,21 @@
+{
+  "name": "delfines-del-sur",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "og-image": "node scripts/generate-og-image.mjs"
+  },
+  "dependencies": {
+    "astro": "^5.1.1"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.4",
+    "@astrojs/check": "^0.9.4",
+    "typescript": "^5.7.3"
+  }
+}

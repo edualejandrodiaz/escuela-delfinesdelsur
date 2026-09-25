@@ -1,0 +1,58 @@
+---
+/**
+ * Galería de instalaciones — DESIGN.md §7 (Gallery).
+ * Scroll-snap horizontal: 82% del ancho en móvil, 48% desde tablet.
+ */
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface GalleryImage {
+  src: ImageMetadata;
+  alt: string;
+}
+interface Props {
+  images: GalleryImage[];
+}
+const { images } = Astro.props;
+---
+
+<div class="gallery" tabindex="0" role="group" aria-label="Fotos de las instalaciones (desliza o usa las flechas del teclado)">
+  {
+    images.map((img) => (
+      <figure class="gallery__item">
+        <Picture
+          src={img.src}
+          alt={img.alt}
+          widths={[480, 768]}
+          width={768}
+          sizes="(min-width: 768px) 48vw, 82vw"
+          formats={['avif', 'webp']}
+          loading="lazy"
+          style="width: 100%; height: 100%; object-fit: cover;"
+        />
+      </figure>
+    ))
+  }
+</div>
+
+<style>
+  .gallery {
+    display: flex;
+    gap: var(--space-2);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+  .gallery__item {
+    margin: 0;
+    flex: 0 0 82%;
+    scroll-snap-align: start;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  @media (min-width: 768px) {
+    .gallery__item {
+      flex-basis: 48%;
+    }
+  }
+</style>

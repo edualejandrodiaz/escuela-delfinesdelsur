@@ -1,0 +1,244 @@
+---
+/**
+ * Programas y horarios — DESIGN.md §6. docs/content.md §4.
+ *
+ * Fuente única: src/data/programs.ts. La vista "Por día" se deriva de la
+ * misma lista (getScheduleByDay), tal como pide docs/content.md §4.8.
+ *
+ * ≥1024px: vista "maestro–detalle" (lista 5/12 + ficha abierta 7/12), tal
+ * como pide DESIGN.md §6. Se logra sin duplicar contenido: `.programs__group`
+ * y `.program-card` se "desenvuelven" con `display:contents` para que sus
+ * encabezados caigan en la columna 1 y el cuerpo abierto en la columna 2
+ * (ver estilos aquí y en ProgramCard.astro). El acordeón de una sola ficha
+ * abierta a la vez sigue siendo la misma lógica JS sin cambios.
+ */
+import SectionHeading from './SectionHeading.astro';
+import ProgramCard from './ProgramCard.astro';
+import Icon from './Icon.astro';
+import { programs, groupOrder, groupLabels, getScheduleByDay, DAYS, type DayName } from '../data/programs';
+
+const byGroup = groupOrder.map((group) => ({
+  group,
+  label: groupLabels[group],
+  items: programs.filter((p) => p.group === group),
+}));
+
+const byDay = getScheduleByDay();
+
+const daySlug: Record<DayName, string> = {
+  Martes: 'martes',
+  Miércoles: 'miercoles',
+  Sábado: 'sabado',
+  Domingo: 'domingo',
+};
+---
+
+<section id="programas" class="section section--alt programs" aria-labelledby="programs-heading">
+  <div class="container">
+    <SectionHeading
+      id="programs-heading"
+      eyebrow="Programas y horarios"
+      heading="Un programa para cada etapa"
+      lead="Elige un programa para ver sus horarios, quién lo dicta y los planes disponibles."
+    />
+
+    <div id="programs-view-tabs" class="segmented" role="tablist" aria-label="Vista de programas" data-tabs>
+      <button
+        role="tab"
+        id="programs-view-tab-programa"
+        aria-controls="programs-view-panel-programa"
+        aria-selected="true"
+        tabindex="0"
+        data-tab-id="programa"
+      >
+        Por programa
+      </button>
+      <button
+        role="tab"
+        id="programs-view-tab-dia"
+        aria-controls="programs-view-panel-dia"
+        aria-selected="false"
+        tabindex="-1"
+        data-tab-id="dia"
+        data-umami-event="vista-por-dia"
+      >
+        Por día
+      </button>
+    </div>
+
+    <div
+      id="programs-view-panel-programa"
+      role="tabpanel"
+      aria-labelledby="programs-view-tab-programa"
+      class="programs__list"
+    >
+      {
+        byGroup.map(({ label, items }) => (
+          <div class="programs__group">
+            <p class="programs__group-label">{label}</p>
+            {items.map((program) => (
+              <ProgramCard program={program} />
+            ))}
+          </div>
+        ))
+      }
+    </div>
+
+    <div
+      id="programs-view-panel-dia"
+      role="tabpanel"
+      aria-labelledby="programs-view-tab-dia"
+      hidden
+      class="programs__by-day"
+    >
+      <div id="schedule-day-tabs" class="day-tabs" role="tablist" aria-label="Día" data-tabs>
+        {
+          DAYS.map((d, i) => (
+            <button
+              role="tab"
+              id={`schedule-tab-${daySlug[d.name]}`}
+              aria-controls={`schedule-panel-${daySlug[d.name]}`}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              tabindex={i === 0 ? 0 : -1}
+              data-tab-id={daySlug[d.name]}
+              aria-label={d.name}
+            >
+              {d.short}
+            </button>
+          ))
+        }
+      </div>
+
+      {
+        DAYS.map((d, i) => (
+          <div
+            id={`schedule-panel-${daySlug[d.name]}`}
+            role="tabpanel"
+            aria-labelledby={`schedule-tab-${daySlug[d.name]}`}
+            hidden={i !== 0}
+          >
+            <ul class="slots" role="list">
+              {byDay[d.name].map((row) => (
+                <li>
+                  <a href={`#${row.program.id}`} data-open-program={row.program.id}>
+                    <span class="slots__time">
+                      <time>{row.slot.start}</time>
+                      <span class="text-small">–{row.slot.end}</span>
+                    </span>
+                    <span class="slots__info">
+                      <b>{row.program.name}</b>
+                      <span class="text-small">{row.program.ageLabel}</span>
+                    </span>
+                    <Icon name="arrow" class="slots__arrow" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .programs .segmented {
+    margin-top: var(--space-5);
+    margin-bottom: var(--space-6);
+  }
+
+  .programs__group-label {
+    font: 600 12px / 1.3 var(--font-heading);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-slate);
+    margin: var(--space-6) 0 var(--space-3);
+  }
+  .programs__group:first-child .programs__group-label {
+    margin-top: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .programs__list {
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      column-gap: var(--space-6);
+      align-items: start;
+    }
+    .programs__group {
+      display: contents;
+    }
+    .programs__group-label {
+      grid-column: 1;
+    }
+  }
+
+  /* ---- Vista "Por día" ---- */
+  .day-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-bottom: var(--space-4);
+  }
+  .day-tabs button {
+    min-height: 44px;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: #fff;
+    box-shadow: inset 0 0 0 1px var(--color-line);
+    font: 600 15px var(--font-heading);
+    color: var(--color-slate);
+    cursor: pointer;
+  }
+  .day-tabs button[aria-selected='true'] {
+    background: var(--color-navy);
+    color: #fff;
+    box-shadow: none;
+  }
+
+  .slots {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    border-radius: var(--radius-md);
+    box-shadow: inset 0 0 0 1px var(--color-line);
+  }
+  .slots li {
+    border-top: 1px solid var(--color-line);
+  }
+  .slots li:first-child {
+    border-top: 0;
+  }
+  .slots a {
+    display: grid;
+    grid-template-columns: 68px 1fr auto;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: 60px;
+    padding: var(--space-2) var(--space-4);
+    text-decoration: none;
+    color: inherit;
+  }
+  .slots__time time {
+    display: block;
+    font: 600 16px var(--font-body);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-navy);
+  }
+  .slots__time .text-small {
+    display: block;
+    font-size: 13px;
+  }
+  .slots__info b {
+    display: block;
+    font-weight: 500;
+  }
+  .slots__info .text-small {
+    display: block;
+    margin-top: 2px;
+  }
+  .slots__arrow {
+    color: var(--color-blue-text);
+  }
+</style>

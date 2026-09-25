@@ -1,0 +1,99 @@
+---
+/**
+ * Preguntas frecuentes — DESIGN.md §6 (Preguntas frecuentes). docs/content.md §7.
+ * `<details>/<summary>` nativo: funciona sin JavaScript.
+ */
+import SectionHeading from './SectionHeading.astro';
+import WhatsAppButton from './WhatsAppButton.astro';
+import Icon from './Icon.astro';
+import { faqItems } from '../data/faq';
+import { generalWhatsapp } from '../data/whatsapp';
+---
+
+<section id="preguntas" class="section faq" aria-labelledby="faq-heading">
+  <div class="container">
+    <SectionHeading id="faq-heading" eyebrow="Preguntas frecuentes" heading="Antes de empezar" />
+
+    <div class="faq__list">
+      {
+        faqItems.map((item) => (
+          <details class="faq__item">
+            <summary>
+              <span>{item.question}</span>
+              <span class="faq__icon" aria-hidden="true">
+                <Icon name="plus" />
+              </span>
+            </summary>
+            {item.answerHtml ? <p set:html={item.answerHtml} /> : <p>{item.answer}</p>}
+          </details>
+        ))
+      }
+    </div>
+
+    <div class="faq__cta">
+      <p class="text-small">¿Tienes otra pregunta?</p>
+      <WhatsAppButton
+        message={generalWhatsapp.faq.message}
+        cta={generalWhatsapp.faq.cta}
+        label="Escríbenos"
+        variant="secondary"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq__list {
+    margin-top: var(--space-5);
+    border-top: 1px solid var(--color-line);
+  }
+  .faq__item {
+    border-bottom: 1px solid var(--color-line);
+  }
+  .faq__item summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    min-height: 56px;
+    padding: var(--space-3) 0;
+    font: 600 16px / 1.35 var(--font-body);
+    color: var(--color-navy);
+    cursor: pointer;
+  }
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq__icon {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color-mist);
+    color: var(--color-navy);
+    display: grid;
+    place-items: center;
+    transition: transform 0.2s var(--ease);
+  }
+  .faq__item[open] .faq__icon {
+    transform: rotate(45deg);
+  }
+  .faq__item p {
+    margin: 0;
+    padding: 0 0 var(--space-4);
+    max-width: 62ch;
+    color: var(--color-ink);
+  }
+  .faq__item :global(a) {
+    white-space: nowrap;
+  }
+
+  .faq__cta {
+    margin-top: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+</style>

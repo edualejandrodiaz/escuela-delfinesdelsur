@@ -1,0 +1,235 @@
+---
+/**
+ * La escuela — DESIGN.md §6 (La escuela). docs/content.md §6.
+ * Una sola sección con 4 bloques de confianza + cierre de misión.
+ */
+import { Picture } from 'astro:assets';
+import SectionHeading from './SectionHeading.astro';
+import TrustBlock from './TrustBlock.astro';
+import Gallery from './Gallery.astro';
+import Icon from './Icon.astro';
+import { team } from '../data/team';
+import { site } from '../data/site';
+
+import teamPhoto from '../assets/images/profesor-junto-a-alumnos.jpg';
+import poolPhoto1 from '../assets/images/categoria-infantil.jpg';
+import poolPhoto2 from '../assets/images/piscina-temperada-01.jpg';
+import poolPhoto3 from '../assets/images/piscina-temperada-02.jpg';
+import poolPhoto4 from '../assets/images/piscina-aire-libre-01.jpg';
+import poolPhoto5 from '../assets/images/piscina-aire-libre-02.jpg';
+import familyPhoto from '../assets/images/bebe-y-padre-piscina.png';
+import competingPhoto from '../assets/images/alumnos-compitiendo.jpg';
+import directorPhoto from '../assets/images/director-profesor-compitiendo-mundial-aguas-gelidas.jpg';
+
+const galleryImages = [
+  { src: poolPhoto1, alt: 'Alumnas y alumnos con gorro y antiparras sentados en el borde de la piscina temperada' },
+  { src: poolPhoto2, alt: 'Piscina temperada techada, con ventanales y mesas alrededor' },
+  { src: poolPhoto3, alt: 'Piscina temperada con reposeras junto a los ventanales' },
+  { src: poolPhoto4, alt: 'Piscina al aire libre rodeada de césped y árboles' },
+  { src: poolPhoto5, alt: 'Piscina al aire libre con quitasoles y césped en un día soleado' },
+];
+---
+
+<section id="escuela" class="section section--alt school" aria-labelledby="school-heading">
+  <div class="container">
+    <SectionHeading
+      id="school-heading"
+      eyebrow="La escuela"
+      heading="Conoce Delfines del Sur"
+      lead="Recibimos alumnos de todas las edades y adaptamos la enseñanza a la condición física, las capacidades y la experiencia de cada uno."
+    />
+
+    <div class="school__grid">
+      <TrustBlock
+        title="Equipo"
+        text="Cada programa está a cargo de un profesor o profesora del equipo."
+      >
+        <Picture
+          slot="media"
+          src={teamPhoto}
+          alt="Profesor junto a un grupo de alumnos en el césped de la escuela"
+          widths={[480, 768]}
+          width={768}
+          sizes="(min-width: 768px) 48vw, 100vw"
+          formats={['avif', 'webp']}
+          loading="lazy"
+        />
+        <ul slot="extra" class="team-list" role="list">
+          {
+            team.map((member) => (
+              <li>
+                <b>{member.name}</b> · {member.role}
+              </li>
+            ))
+          }
+        </ul>
+      </TrustBlock>
+
+      <TrustBlock
+        title="Seguridad e instalaciones"
+        text="Contamos con una piscina temperada y una piscina al aire libre. Las dependencias tienen salvavidas y primeros auxilios."
+        mediaAspect="none"
+      >
+        <Gallery slot="media" images={galleryImages} />
+      </TrustBlock>
+
+      <TrustBlock
+        title="Ambiente familiar"
+        text="Las familias acompañan y son parte del proceso. En Natación Baby Swift, la madre o el padre pueden entrar al agua con su hijo, con supervisión del profesor."
+        mediaAspect="none"
+      >
+        <Picture
+          slot="media"
+          src={familyPhoto}
+          alt="Un adulto sostiene a un bebé con gorro dentro de la piscina temperada"
+          widths={[360]}
+          width={360}
+          formats={['avif', 'webp']}
+          fallbackFormat="jpg"
+          loading="lazy"
+          class="family-photo"
+        />
+      </TrustBlock>
+
+      <TrustBlock
+        title="Experiencia deportiva"
+        text={`Nuestros alumnos participan en competencias de distintas categorías, y los profesores también compiten en torneos. El director, ${site.director.name}, participó en un mundial de aguas gélidas en El Calafate, Argentina.`}
+        mediaAspect="none"
+        linkHref="#programa-competitivo"
+        linkLabel="Ver Natación Competitivo"
+      >
+        <div slot="media" class="sport-photos">
+          <Picture
+            src={competingPhoto}
+            alt="Alumnos nadando en una competencia en aguas abiertas"
+            widths={[480, 768]}
+            width={768}
+            sizes="(min-width: 768px) 48vw, 100vw"
+            formats={['avif', 'webp']}
+            loading="lazy"
+            class="sport-photos__main"
+          />
+          <Picture
+            src={directorPhoto}
+            alt="Cristofer Aguilera, director, en la zona de competencia del mundial de aguas gélidas en El Calafate"
+            widths={[480]}
+            width={480}
+            formats={['avif', 'webp']}
+            loading="lazy"
+            class="sport-photos__secondary"
+          />
+        </div>
+      </TrustBlock>
+    </div>
+
+    <div class="school__mission">
+      <span class="eyebrow">Nuestra misión</span>
+      <p class="school__mission-text">
+        Hacer accesibles los deportes acuáticos a personas de todas las edades, entregando
+        principios de disciplina, trabajo duro y mentalidad positiva.
+      </p>
+      <a
+        class="link school__ig"
+        href={site.instagramUrl}
+        target="_blank"
+        rel="noopener"
+        aria-label="Ver Delfines del Sur en Instagram (se abre en una pestaña nueva)"
+        data-umami-event="instagram"
+        data-umami-event-cta="escuela"
+      >
+        <Icon name="instagram" />
+        <span>Mira más de la escuela en Instagram</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .school__grid {
+    margin-top: var(--space-6);
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .team-list {
+    list-style: none;
+    margin: var(--space-3) 0 0;
+    padding: 0;
+  }
+  .team-list li {
+    padding: 10px 0;
+    border-top: 1px solid var(--color-line);
+    font-size: 15px;
+  }
+  .team-list li:first-child {
+    border-top: 0;
+  }
+  .team-list b {
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+
+  .family-photo {
+    max-width: 360px;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+  }
+
+  .sport-photos {
+    display: grid;
+    gap: var(--space-2);
+    grid-template-columns: 1fr;
+  }
+  .sport-photos__main {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+  }
+  .sport-photos__secondary {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .sport-photos {
+      grid-template-columns: 3fr 2fr;
+      align-items: stretch;
+    }
+    .sport-photos__main,
+    .sport-photos__secondary {
+      height: 100%;
+      aspect-ratio: auto;
+    }
+    .sport-photos__secondary {
+      display: block;
+      width: 100%;
+      object-fit: cover;
+      border-radius: var(--radius-lg);
+    }
+  }
+
+  .school__mission {
+    margin-top: var(--space-7);
+    padding-left: var(--space-4);
+    border-left: 4px solid var(--color-cyan);
+  }
+  .school__mission-text {
+    font: 600 20px / 1.35 var(--font-heading);
+    color: var(--color-navy);
+    max-width: 32ch;
+    margin: 0;
+  }
+  .school__ig {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .school__grid {
+      grid-template-columns: 1fr 1fr;
+      column-gap: var(--space-6);
+    }
+  }
+</style>

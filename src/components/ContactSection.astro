@@ -1,0 +1,136 @@
+---
+/**
+ * Contacto — DESIGN.md §6 (Contacto). docs/content.md §8.
+ * Cierre de conversión: WhatsApp como CTA principal, más llamar, Instagram
+ * y "Cómo llegar".
+ */
+import SectionHeading from './SectionHeading.astro';
+import WhatsAppButton from './WhatsAppButton.astro';
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+import { generalWhatsapp } from '../data/whatsapp';
+---
+
+<section id="contacto" class="section section--dark on-dark contact" aria-labelledby="contact-heading">
+  <div class="container">
+    <span class="rail-mark" aria-hidden="true"></span>
+    <SectionHeading
+      id="contact-heading"
+      eyebrow="Contacto"
+      heading="Da el primer paso"
+      lead="Cuéntanos qué buscas y te orientamos."
+    />
+
+    <div class="contact__grid">
+      <div class="contact__ctas">
+        <WhatsAppButton
+          message={generalWhatsapp.contacto.message}
+          cta={generalWhatsapp.contacto.cta}
+          label="Escríbenos por WhatsApp"
+          variant="primary-dark"
+          block
+          class="contact__primary"
+        />
+        <div class="contact__secondary-row">
+          <a
+            class="btn btn-secondary-dark"
+            href={site.phoneHref}
+            aria-label={`Llamar a Delfines del Sur al ${site.phoneDisplay}`}
+          >
+            <Icon name="phone" />
+            <span>Llamar</span>
+          </a>
+          <a
+            class="btn btn-secondary-dark"
+            href={site.instagramUrl}
+            target="_blank"
+            rel="noopener"
+            aria-label="Ver Delfines del Sur en Instagram (se abre en una pestaña nueva)"
+            data-umami-event="instagram"
+            data-umami-event-cta="contacto"
+          >
+            <Icon name="instagram" />
+            <span>Instagram</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="contact__address">
+        <Icon name="pin" class="contact__pin" />
+        <div>
+          <p class="contact__address-line1">{site.address.line1}</p>
+          <p class="contact__address-line2">{site.address.line2}</p>
+          <p class="contact__maps">
+            <a
+              class="link"
+              href={site.mapsUrl}
+              target="_blank"
+              rel="noopener"
+              aria-label={`Cómo llegar a ${site.address.line1} (se abre Google Maps)`}
+              data-umami-event="como-llegar"
+            >
+              Cómo llegar
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact__grid {
+    margin-top: var(--space-6);
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .contact__ctas :global(.contact__primary) {
+    min-height: 56px;
+  }
+  .contact__secondary-row {
+    margin-top: var(--space-2);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2);
+  }
+
+  .contact__address {
+    display: flex;
+    gap: var(--space-3);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--color-line-dark);
+  }
+  .contact__pin {
+    flex: none;
+    color: var(--color-cyan);
+    margin-top: 2px;
+  }
+  .contact__address-line1 {
+    margin: 0;
+    font: 600 16px var(--font-body);
+    color: #fff;
+  }
+  .contact__address-line2 {
+    margin: 2px 0 0;
+    font-size: var(--fs-small);
+    color: var(--color-on-dark-muted);
+  }
+  .contact__maps {
+    margin: var(--space-2) 0 0;
+  }
+
+  @media (min-width: 768px) {
+    .contact__grid {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+    .contact__ctas {
+      max-width: 420px;
+    }
+    .contact__address {
+      border-top: 0;
+      padding-top: 0;
+    }
+  }
+</style>

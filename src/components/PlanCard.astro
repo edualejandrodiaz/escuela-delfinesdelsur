@@ -1,0 +1,72 @@
+---
+/**
+ * Tarjeta de plan — DESIGN.md §6 (Planes) y §7 (PlanCard).
+ * Las dos tarjetas comparten exactamente el mismo componente y estilo:
+ * ningún plan se presenta como "mejor".
+ */
+import WhatsAppButton from './WhatsAppButton.astro';
+import type { Plan } from '../data/plans';
+
+interface Props {
+  plan: Plan;
+}
+const { plan } = Astro.props;
+---
+
+<article class="plan-card">
+  <h3>{plan.name}</h3>
+  <p class="plan-card__price">{plan.price}<span>{plan.period}</span></p>
+
+  <dl class="plan-card__meta">
+    <div>
+      <dt class="text-small">{plan.classesLabel}</dt>
+      <dd>{plan.classesValue}</dd>
+    </div>
+    <div>
+      <dt class="text-small">{plan.daysLabel}</dt>
+      <dd>{plan.daysValue}</dd>
+    </div>
+  </dl>
+
+  <WhatsAppButton
+    message={plan.waMessage}
+    cta={plan.waCta}
+    label="Consultar por este plan"
+    ariaLabel={`Consultar por el ${plan.name}`}
+    block
+  />
+</article>
+
+<style>
+  .plan-card {
+    background: #fff;
+    border-radius: var(--radius-md);
+    box-shadow: inset 0 0 0 1px var(--color-line);
+    padding: var(--space-5);
+  }
+  .plan-card__price {
+    font: 700 var(--fs-price) / 1.1 var(--font-heading);
+    color: var(--color-navy);
+    font-variant-numeric: tabular-nums;
+    margin: var(--space-2) 0 var(--space-4);
+  }
+  .plan-card__price span {
+    font: 400 16px var(--font-body);
+    color: var(--color-slate);
+    margin-left: 4px;
+  }
+  .plan-card__meta {
+    margin: 0 0 var(--space-4);
+    display: grid;
+    gap: var(--space-3);
+  }
+  .plan-card__meta dt {
+    color: var(--color-slate);
+    margin-bottom: 2px;
+  }
+  .plan-card__meta dd {
+    margin: 0;
+    font: 500 15px var(--font-body);
+    color: var(--color-ink);
+  }
+</style>

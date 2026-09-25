@@ -1,0 +1,55 @@
+---
+/**
+ * CTA de WhatsApp — DESIGN.md §7 (componente WhatsAppButton).
+ * Construye el enlace desde el mensaje contextual (docs/content.md §10) y
+ * agrega los atributos de medición de Umami (docs/sitemap.md §4).
+ */
+import { whatsappHref } from '../data/whatsapp';
+import Icon from './Icon.astro';
+
+interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
+  message: string;
+  /** Identificador de ubicación para medición (docs/content.md §10). */
+  cta: string;
+  label: string;
+  /** Si se omite, se arma como "{label} (se abre WhatsApp)". */
+  ariaLabel?: string;
+  variant?: 'primary' | 'primary-dark' | 'secondary' | 'secondary-dark';
+  block?: boolean;
+  class?: string;
+}
+
+const {
+  message,
+  cta,
+  label,
+  ariaLabel,
+  variant = 'primary',
+  block = false,
+  class: className,
+  ...rest
+} = Astro.props;
+
+const href = whatsappHref(message);
+const classes = [
+  'btn',
+  `btn-${variant}`,
+  block ? 'btn-block' : '',
+  className ?? '',
+].filter(Boolean).join(' ');
+---
+
+<a
+  class={classes}
+  href={href}
+  target="_blank"
+  rel="noopener"
+  aria-label={`${ariaLabel ?? label} (se abre WhatsApp)`}
+  data-cta={cta}
+  data-umami-event="whatsapp"
+  data-umami-event-cta={cta}
+  {...rest}
+>
+  <Icon name="whatsapp" />
+  <span>{label}</span>
+</a>

@@ -1,0 +1,57 @@
+---
+/**
+ * Bloque de confianza — DESIGN.md §7 (TrustBlock). Usado 4 veces dentro de
+ * "La escuela": Equipo, Seguridad e instalaciones, Ambiente familiar y
+ * Experiencia deportiva (docs/content.md §6).
+ */
+interface Props {
+  title: string;
+  text: string;
+  /** '16/9' recorta la foto principal a ese ratio; 'none' para Gallery o
+   * fotos con tratamiento particular (p. ej. la de baja resolución). */
+  mediaAspect?: '16/9' | 'none';
+  linkHref?: string;
+  linkLabel?: string;
+}
+const { title, text, mediaAspect = '16/9', linkHref, linkLabel } = Astro.props;
+---
+
+<div class="trust-block">
+  <div class={`trust-block__media ${mediaAspect === '16/9' ? 'trust-block__media--16-9' : ''}`}>
+    <slot name="media" />
+  </div>
+  <h3>{title}</h3>
+  <p class="trust-block__text">{text}</p>
+  <slot name="extra" />
+  {linkHref && linkLabel && (
+    <p class="trust-block__link">
+      <a class="link" href={linkHref}>{linkLabel}</a>
+    </p>
+  )}
+</div>
+
+<style>
+  .trust-block__media--16-9 {
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .trust-block__media--16-9 :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .trust-block h3 {
+    margin-top: var(--space-4);
+  }
+  .trust-block__text {
+    margin: var(--space-1) 0 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--color-slate);
+  }
+  .trust-block__link {
+    margin: var(--space-2) 0 0;
+  }
+</style>

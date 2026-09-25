@@ -1,0 +1,133 @@
+---
+/**
+ * Header — DESIGN.md §6 (Header). docs/content.md §1.
+ * Sticky, 56px en móvil / 72px en desktop. Sin WhatsApp en el header móvil
+ * (esa función la cumple el botón flotante); con WhatsApp en desktop.
+ */
+import Icon from './Icon.astro';
+import WhatsAppButton from './WhatsAppButton.astro';
+import MobileMenu from './MobileMenu.astro';
+import { navLinks } from '../data/site';
+import { generalWhatsapp } from '../data/whatsapp';
+---
+
+<header class="site-header">
+  <div class="container site-header__bar">
+    <a href="#inicio" class="site-header__logo">
+      <img
+        src="/logo/logotipo-horizontal-light.svg"
+        alt="Delfines del Sur — Escuela de Natación"
+        width="160"
+        height="39"
+      />
+    </a>
+
+    <button
+      id="menu-toggle"
+      class="site-header__menu-btn"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <Icon name="menu" />
+      <span>Menú</span>
+    </button>
+
+    <nav class="site-header__nav" aria-label="Principal">
+      {
+        navLinks.map((link) => (
+          <a href={link.href} data-open-view={link.openView}>
+            {link.label}
+          </a>
+        ))
+      }
+      <WhatsAppButton
+        message={generalWhatsapp.header.message}
+        cta={generalWhatsapp.header.cta}
+        label="WhatsApp"
+        ariaLabel="Escribir a Delfines del Sur por WhatsApp"
+        class="site-header__cta"
+      />
+    </nav>
+  </div>
+</header>
+
+<MobileMenu />
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    height: var(--header-h);
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-line);
+    transition: box-shadow 0.15s var(--ease);
+  }
+  .site-header.is-scrolled {
+    box-shadow: var(--shadow-1);
+  }
+
+  .site-header__bar {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .site-header__logo {
+    display: flex;
+    align-items: center;
+    flex: none;
+  }
+  .site-header__logo img {
+    height: 28px;
+    width: auto;
+  }
+
+  .site-header__menu-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    height: 44px;
+    padding: 0 var(--space-3);
+    background: var(--color-bg);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-sm);
+    font: 600 15px var(--font-body);
+    color: var(--color-navy);
+    cursor: pointer;
+  }
+
+  .site-header__nav {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .site-header__logo img {
+      height: 34px;
+    }
+    .site-header__menu-btn {
+      display: none;
+    }
+    .site-header__nav {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+      font: 500 15px var(--font-body);
+    }
+    .site-header__nav a:not(.btn) {
+      text-decoration: none;
+      color: var(--color-ink);
+      transition: color 0.15s var(--ease);
+    }
+    .site-header__nav a:not(.btn):hover {
+      color: var(--color-blue-text);
+    }
+    :global(.site-header__cta) {
+      min-height: 40px;
+      padding: 0 18px;
+      font-size: 15px;
+    }
+  }
+</style>

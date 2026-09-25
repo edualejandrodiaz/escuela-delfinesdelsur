@@ -1,0 +1,20 @@
+---
+/**
+ * Encabezado de sección — DESIGN.md §7 (componente SectionHeader).
+ * Eyebrow + H2 + lead opcional. La variante "on-dark" la hereda del
+ * contenedor .on-dark del padre (ver base.css); este componente no decide
+ * el color.
+ */
+interface Props {
+  id: string;
+  eyebrow: string;
+  heading: string;
+  lead?: string;
+}
+
+const { id, eyebrow, heading, lead } = Astro.props;
+---
+
+<span class="eyebrow">{eyebrow}</span>
+<h2 id={id}>{heading}</h2>
+{lead && <p class="lead">{lead}</p>}

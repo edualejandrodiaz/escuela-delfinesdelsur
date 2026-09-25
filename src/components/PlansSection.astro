@@ -1,0 +1,57 @@
+---
+/**
+ * Planes — DESIGN.md §6 (Planes). docs/content.md §5.
+ */
+import SectionHeading from './SectionHeading.astro';
+import PlanCard from './PlanCard.astro';
+import { plans, plansFooter } from '../data/plans';
+---
+
+<section id="planes" class="section plans" aria-labelledby="plans-heading">
+  <div class="container">
+    <SectionHeading
+      id="plans-heading"
+      eyebrow="Planes"
+      heading="Planes mensuales"
+      lead="Elige según cuántas veces a la semana quieres venir."
+    />
+
+    <div class="plans__grid">
+      {plans.map((plan) => <PlanCard plan={plan} />)}
+    </div>
+
+    <div class="plans__footer">
+      <p class="plans__included">{plansFooter.included}</p>
+      {plansFooter.notes.map((note) => <p class="text-small">{note}</p>)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .plans__grid {
+    margin-top: var(--space-5);
+    display: grid;
+    gap: var(--space-3);
+  }
+  .plans__footer {
+    margin-top: var(--space-5);
+  }
+  .plans__included {
+    margin: 0 0 var(--space-2);
+    font: 600 15px var(--font-body);
+    color: var(--color-ink);
+  }
+  .plans__footer .text-small {
+    margin: 0;
+  }
+  .plans__footer .text-small + .text-small {
+    margin-top: 4px;
+  }
+
+  @media (min-width: 768px) {
+    .plans__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-5);
+    }
+  }
+</style>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512"><defs><linearGradient id="gw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4BE1FC"/><stop offset="1" stop-color="#0092F4"/></linearGradient><linearGradient id="gd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0092F4"/><stop offset="1" stop-color="#01245B"/></linearGradient><linearGradient id="gc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4BE1FC"/><stop offset="1" stop-color="#0092F4"/></linearGradient></defs><rect width="512" height="512" rx="112.64" fill="url(#gd)"/>
+<g transform="translate(30.72 10.24) scale(2.2528)">
+<polygon points="150.00,89.00 151.88,94.12 157.00,96.00 151.88,97.88 150.00,103.00 148.12,97.88 143.00,96.00 148.12,94.12" fill="#4BE1FC"/>
+<polygon points="150.00,126.50 151.48,130.52 155.50,132.00 151.48,133.48 150.00,137.50 148.52,133.48 144.50,132.00 148.52,130.52" fill="#4BE1FC"/>
+<polygon points="136.00,108.00 137.34,111.66 141.00,113.00 137.34,114.34 136.00,118.00 134.66,114.34 131.00,113.00 134.66,111.66" fill="#4BE1FC"/>
+<polygon points="166.00,105.50 167.21,108.79 170.50,110.00 167.21,111.21 166.00,114.50 164.79,111.21 161.50,110.00 164.79,108.79" fill="#4BE1FC"/>
+<polygon points="157.00,118.40 157.70,120.30 159.60,121.00 157.70,121.70 157.00,123.60 156.30,121.70 154.40,121.00 156.30,120.30" fill="#4BE1FC"/>
+<path d="M 180 58 C 172 55 164 53 158 52 C 154 43 145 38 134 38 C 116 38 100 44 88 54 C 84 42 76 32 62 24 C 66 38 69 50 71 63 C 60 80 52 98 47 118 C 44 131 42 142 41 152 C 31 148 19 149 7 156 C 19 159 29 164 36 172 C 35 180 35 188 38 196 C 43 186 47 174 51 160 C 54 140 61 122 72 106 C 83 90 97 78 114 71 C 112 81 107 91 100 101 C 114 94 123 84 127 72 C 139 68 152 65 163 62 C 170 61 176 60 180 58 Z" fill="#FFFFFF" transform="translate(16 -6) scale(0.8)"/>
+<circle cx="98" cy="153" r="9" fill="#FFFFFF"/>
+<path d="M 72 160 C 80 124 122 116 144 150" fill="none" stroke="#FFFFFF" stroke-width="7.5" stroke-linecap="round"/>
+<path d="M 24 160 C 44 152 64 152 84 160 S 124 168 144 160 S 170 152 184 155.2" fill="none" stroke="#4BE1FC" stroke-width="7" stroke-linecap="round"/>
+<path d="M 24 174 C 44 167 64 167 84 174 S 124 181 144 174 S 170 167 184 169.8" fill="none" stroke="#7EEBFD" stroke-width="6" stroke-linecap="round"/>
+<path d="M 24 187 C 44 182 64 182 84 187 S 124 192 144 187 S 170 182 184 184.0" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+</g></svg>

@@ -1,0 +1,165 @@
+---
+/**
+ * Hero — DESIGN.md §6 (Hero). docs/content.md §2.
+ * Foto real (alumnos practicando en el borde de la piscina) sin texto
+ * encima; bloque navy debajo con el mensaje principal y los dos CTA.
+ */
+import { Picture } from 'astro:assets';
+import heroImage from '../assets/images/alumnos-practicando-borde-piscina.jpg';
+import WhatsAppButton from './WhatsAppButton.astro';
+import { generalWhatsapp } from '../data/whatsapp';
+import { site } from '../data/site';
+---
+
+<section id="inicio" class="hero on-dark" aria-labelledby="hero-heading">
+  <div class="hero__media">
+    <Picture
+      src={heroImage}
+      alt="Alumnos con gorro y antiparras practicando patada tomados del borde de la piscina al aire libre"
+      widths={[480, 768, 1200]}
+      width={1200}
+      sizes="(min-width: 1024px) 50vw, 100vw"
+      formats={['avif', 'webp']}
+      loading="eager"
+      fetchpriority="high"
+      style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%;"
+    />
+  </div>
+
+  <div class="hero__panel">
+    <div class="container hero__inner">
+      <span class="rail-mark" aria-hidden="true"></span>
+      <span class="eyebrow">Escuela de natación · Coronel</span>
+      <h1 id="hero-heading">Aprende, crece y compite en el agua</h1>
+      <p class="lead">
+        Clases de natación para bebés, niños, adolescentes y adultos, con enseñanza adaptada a cada
+        alumno.
+      </p>
+
+      <ul class="hero__facts">
+        <li>Desde bebés hasta adultos</li>
+        <li>Piscina temperada y piscina al aire libre</li>
+        <li><a class="link" href="#planes">Planes desde $50.000 al mes</a></li>
+      </ul>
+
+      <div class="hero__ctas">
+        <div data-hero-cta>
+          <WhatsAppButton
+            message={generalWhatsapp.hero.message}
+            cta={generalWhatsapp.hero.cta}
+            label="Escríbenos por WhatsApp"
+            variant="primary-dark"
+            block
+            class="hero__cta-primary"
+          />
+        </div>
+        <a class="btn btn-secondary-dark hero__cta-secondary" href="#busco">Encuentra tu programa</a>
+      </div>
+
+      <p class="hero__trust">
+        Dirigida por {site.director.name}, {site.director.role}.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    background: var(--color-navy);
+  }
+
+  .hero__media {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+  .hero__media :global(img) {
+    display: block;
+  }
+
+  .hero__panel {
+    padding-block: var(--space-6) var(--space-7);
+  }
+
+  .hero__facts {
+    list-style: none;
+    margin: var(--space-4) 0 var(--space-5);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    font-size: 15px;
+  }
+  .hero__facts li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .hero__facts li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-cyan);
+    flex: none;
+  }
+
+  .hero__ctas {
+    display: grid;
+    gap: var(--space-2);
+  }
+  .hero__cta-secondary {
+    min-height: 52px;
+  }
+  .hero__ctas :global(.hero__cta-primary) {
+    min-height: 52px;
+  }
+
+  .hero__trust {
+    margin: var(--space-5) 0 0;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-line-dark);
+    font-size: var(--fs-small);
+    color: var(--color-on-dark-muted);
+  }
+
+  @media (min-width: 480px) {
+    .hero__facts {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 6px 18px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 560px;
+    }
+    .hero__media {
+      order: 2;
+      aspect-ratio: auto;
+      height: 100%;
+    }
+    .hero__panel {
+      order: 1;
+      display: flex;
+      align-items: center;
+      padding-block: 0;
+    }
+    .hero__inner {
+      max-width: none;
+      padding-left: max(var(--gutter), calc((100vw - var(--container-max)) / 2 + var(--gutter)));
+      padding-right: var(--space-7);
+    }
+    .hero__ctas {
+      grid-auto-flow: column;
+      justify-content: start;
+      gap: var(--space-3);
+    }
+    .hero__ctas :global(.btn) {
+      width: auto;
+      white-space: nowrap;
+    }
+  }
+</style>

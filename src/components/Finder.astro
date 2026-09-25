@@ -1,0 +1,121 @@
+---
+/**
+ * Orientador "¿Qué estás buscando?" — DESIGN.md §6. docs/content.md §3.
+ * Ayuda de navegación: cada fila abre la ficha del programa correspondiente
+ * (src/scripts/programs.ts). No lleva CTA de WhatsApp (sitemap.md §4).
+ */
+import SectionHeading from './SectionHeading.astro';
+import Icon from './Icon.astro';
+import { finderTabs } from '../data/finder';
+---
+
+<section id="busco" class="section finder" aria-labelledby="finder-heading">
+  <div class="container">
+    <SectionHeading
+      id="finder-heading"
+      eyebrow="Encuentra tu programa"
+      heading="¿Qué estás buscando?"
+    />
+
+    <div id="finder-tabs" class="segmented" role="tablist" aria-label="¿Qué estás buscando?" data-tabs>
+      {
+        finderTabs.map((tab, i) => (
+          <button
+            role="tab"
+            id={`finder-tab-${tab.id}`}
+            aria-controls={`finder-panel-${tab.id}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            tabindex={i === 0 ? 0 : -1}
+            data-tab-id={tab.id}
+          >
+            {tab.label}
+          </button>
+        ))
+      }
+    </div>
+
+    {
+      finderTabs.map((tab, i) => (
+        <div
+          id={`finder-panel-${tab.id}`}
+          role="tabpanel"
+          aria-labelledby={`finder-tab-${tab.id}`}
+          hidden={i !== 0}
+        >
+          <ul class="finder__list" role="list">
+            {tab.needs.map((need) => (
+              <li>
+                <a
+                  href={`#${need.targetId}`}
+                  data-open-program={need.targetId}
+                  data-umami-event="orientador"
+                  data-umami-event-programa={`#${need.targetId}`}
+                >
+                  <span class="finder__need">
+                    <b>{need.text}</b>
+                    <span class="text-small">{need.age}</span>
+                  </span>
+                  <Icon name="arrow" class="finder__arrow" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .finder {
+    background: var(--color-bg);
+  }
+  .finder .segmented {
+    margin-top: var(--space-5);
+  }
+
+  .finder__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-top: var(--space-3);
+  }
+  .finder__list li {
+    border-bottom: 1px solid var(--color-line);
+  }
+  .finder__list a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    min-height: 64px;
+    padding: var(--space-3) 0;
+    text-decoration: none;
+    color: var(--color-ink);
+  }
+  .finder__need {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .finder__need b {
+    font: 500 16px var(--font-body);
+    font-weight: 500;
+  }
+  .finder__arrow {
+    flex: none;
+    color: var(--color-blue-text);
+  }
+  .finder__list a:hover .finder__need b,
+  .finder__list a:focus-visible .finder__need b {
+    color: var(--color-blue-text);
+  }
+
+  @media (min-width: 768px) {
+    .finder__list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: var(--space-6);
+    }
+  }
+</style>

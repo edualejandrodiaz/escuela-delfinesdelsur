@@ -1,0 +1,123 @@
+---
+/**
+ * Panel de menú móvil — DESIGN.md §6 (Header → Menú móvil).
+ * Cubre la pantalla desde arriba. Se abre/cierra desde src/scripts/site.ts
+ * (focus trap, Esc, bloqueo de scroll del body).
+ */
+import Icon from './Icon.astro';
+import WhatsAppButton from './WhatsAppButton.astro';
+import { navLinks, site } from '../data/site';
+import { generalWhatsapp } from '../data/whatsapp';
+---
+
+<div id="mobile-menu" class="mobile-menu" hidden>
+  <div class="mobile-menu__bar container">
+    <span class="mobile-menu__title" id="mobile-menu-title">Menú</span>
+    <button id="menu-close" class="mobile-menu__close" aria-label="Cerrar menú">
+      <Icon name="close" />
+    </button>
+  </div>
+
+  <nav class="mobile-menu__nav container" aria-labelledby="mobile-menu-title">
+    {
+      navLinks.map((link) => (
+        <a href={link.href} data-open-view={link.openView}>
+          {link.label}
+        </a>
+      ))
+    }
+  </nav>
+
+  <div class="mobile-menu__footer container">
+    <WhatsAppButton
+      message={generalWhatsapp.menu.message}
+      cta={generalWhatsapp.menu.cta}
+      label="Escríbenos por WhatsApp"
+      block
+    />
+    <a
+      class="mobile-menu__ig"
+      href={site.instagramUrl}
+      target="_blank"
+      rel="noopener"
+      aria-label="Ver Delfines del Sur en Instagram (se abre en una pestaña nueva)"
+      data-umami-event="instagram"
+      data-umami-event-cta="menu"
+    >
+      <Icon name="instagram" />
+      <span>Instagram {site.instagramHandle}</span>
+    </a>
+  </div>
+</div>
+
+<style>
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: var(--color-bg);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .mobile-menu[hidden] {
+    display: none;
+  }
+
+  .mobile-menu__bar {
+    height: var(--header-h);
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .mobile-menu__title {
+    font: 600 16px var(--font-heading);
+    color: var(--color-navy);
+  }
+  .mobile-menu__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: 0;
+    color: var(--color-navy);
+    cursor: pointer;
+  }
+
+  .mobile-menu__nav {
+    display: flex;
+    flex-direction: column;
+    padding-top: var(--space-2);
+  }
+  .mobile-menu__nav a {
+    display: flex;
+    align-items: center;
+    min-height: 56px;
+    border-bottom: 1px solid var(--color-line);
+    text-decoration: none;
+    font: 500 16px var(--font-body);
+    color: var(--color-ink);
+  }
+
+  .mobile-menu__footer {
+    margin-top: auto;
+    padding-block: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .mobile-menu__ig {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    text-decoration: none;
+    color: var(--color-navy);
+    font: 500 15px var(--font-body);
+  }
+</style>

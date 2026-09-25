@@ -1,0 +1,65 @@
+---
+/**
+ * Botón flotante de WhatsApp — DESIGN.md §6. Solo <1024 (en desktop lo
+ * reemplaza el botón del header). Visibilidad controlada por
+ * src/scripts/site.ts (IntersectionObserver sobre el CTA del hero y #contacto).
+ */
+import Icon from './Icon.astro';
+import { whatsappHref } from '../data/whatsapp';
+import { generalWhatsapp } from '../data/whatsapp';
+
+const href = whatsappHref(generalWhatsapp.fab.message);
+---
+
+<a
+  class="fab-whatsapp"
+  href={href}
+  target="_blank"
+  rel="noopener"
+  aria-label="Escribir por WhatsApp (se abre WhatsApp)"
+  data-cta={generalWhatsapp.fab.cta}
+  data-umami-event="whatsapp"
+  data-umami-event-cta={generalWhatsapp.fab.cta}
+>
+  <Icon name="whatsapp" />
+  <span>WhatsApp</span>
+</a>
+
+<style>
+  .fab-whatsapp {
+    position: fixed;
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    z-index: 30;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    height: 56px;
+    padding: 0 20px 0 16px;
+    border-radius: var(--radius-full);
+    background: var(--color-navy);
+    color: #fff;
+    text-decoration: none;
+    font: 600 15px var(--font-heading);
+    box-shadow: var(--shadow-float);
+    box-shadow: var(--shadow-float), inset 0 0 0 2px var(--color-cyan);
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+    transition: opacity 0.25s var(--ease), transform 0.25s var(--ease), background-color 0.15s var(--ease);
+  }
+  .fab-whatsapp.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .fab-whatsapp:hover {
+    background: var(--color-navy-hover);
+  }
+
+  @media (min-width: 1024px) {
+    .fab-whatsapp {
+      display: none;
+    }
+  }
+</style>

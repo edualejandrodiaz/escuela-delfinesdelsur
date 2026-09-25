@@ -1,0 +1,91 @@
+---
+/**
+ * Footer — DESIGN.md §6 (Footer). docs/content.md §9.
+ * Continúa el navy de Contacto, separado por una línea. En móvil reserva
+ * espacio extra abajo para que el botón flotante no tape el copyright.
+ */
+import { navLinks, site } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer on-dark">
+  <div class="container site-footer__inner">
+    <img
+      src="/logo/logotipo-vertical-dark.svg"
+      alt="Delfines del Sur — Escuela de Natación"
+      width="128"
+      height="91"
+      class="site-footer__logo"
+    />
+
+    <nav class="site-footer__nav" aria-label="Pie de página">
+      {
+        navLinks.map((link) => (
+          <a href={link.href} data-open-view={link.openView}>
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <p class="site-footer__contact">
+      <a href={site.phoneHref}>{site.phoneDisplay}</a> · {site.instagramHandle}<br />
+      {site.address.line1}
+    </p>
+
+    <p class="site-footer__copy">© {year} {site.fullName}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-navy);
+    border-top: 1px solid var(--color-line-dark);
+    padding-block: var(--space-6) calc(var(--space-8) + 88px);
+  }
+  @media (min-width: 1024px) {
+    .site-footer {
+      padding-block: var(--space-6) var(--space-8);
+    }
+  }
+
+  .site-footer__inner {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .site-footer__logo {
+    height: auto;
+  }
+
+  .site-footer__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-5);
+  }
+  .site-footer__nav a {
+    text-decoration: none;
+    color: #fff;
+    font: 500 15px var(--font-body);
+  }
+  .site-footer__nav a:hover {
+    color: var(--color-cyan);
+  }
+
+  .site-footer__contact,
+  .site-footer__copy {
+    margin: 0;
+    font-size: var(--fs-small);
+    color: var(--color-on-dark-muted);
+    line-height: 1.6;
+  }
+  .site-footer__contact a {
+    color: var(--color-on-dark-muted);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .site-footer__contact a:hover {
+    color: #fff;
+  }
+</style>
